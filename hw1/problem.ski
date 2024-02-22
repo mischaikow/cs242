@@ -24,9 +24,12 @@ def _3  = inc _2;
 # TASK: Implement the following functions.
 
 # BEGIN_YOUR_CODE
+def c1     = S (S (K K) (S (K S) (S (K K) I))) (K (S (S (K S) (S (K K) I)) (K I)));
+def c2     = S ((c1 S (c1 K (c1 S (S (c1 c1 I) (K I)))))) (K (c1 K I));
+def swap   = c1 (c2 I) I;
 def or     = I;
 def and    = I;
-def not    = I;
+def not    = c2 (c1 c1 (c1 c2 (c2 (c1 c1 I) I))) I;
 def is_odd = I;
 # END_YOUR_CODE
 
@@ -56,3 +59,7 @@ section_is_odd;
 (is_odd _1) x y;  # x
 (is_odd _2) x y;  # y
 (is_odd _3) x y;  # x
+
+section_swap;
+(swap) x y;  # (y x)
+(swap) y x;  # (x y)
