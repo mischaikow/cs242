@@ -33,6 +33,9 @@ def not    = c2 (c1 c1 (c1 c2 (c2 (c1 c1 I) I))) I;
 def is_odd = I;
 # END_YOUR_CODE
 
+#not z x y = z y x
+#or z w x y = z w z x y
+
 #########
 # TESTS #
 #########
@@ -43,16 +46,28 @@ section_or; # This symbol will just be printed, so we can keep track of the outp
 (or tt ff) x y;  # x
 (or ff tt) x y;  # x
 (or ff ff) x y;  # y
+tt x (tt x y);
+tt x (ff x y);
+ff x (tt x y);
+ff x (ff x y);
+## or z w x y  =  z x (w x y)
 
 section_and;
 (and tt tt) x y;  # x
 (and tt ff) x y;  # y
 (and ff tt) x y;  # y
 (and ff ff) x y;  # y
+tt (tt x y) y;
+tt (ff x y) y;
+ff (tt x y) y;
+ff (ff x y) y;
+## and z w x y = z (w x y) y
 
 section_not;
 (not tt) x y;  # y
 (not ff) x y;  # x
+## not z x y = z y x
+not;
 
 section_is_odd;
 (is_odd _0) x y;  # y

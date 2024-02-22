@@ -51,8 +51,11 @@ def matched(parentheses: np.ndarray) -> bool:
     False
     """
     # BEGIN_YOUR_CODE
-    _, indices = np.unique(parentheses, return_inverse=True)
+    uniques, indices = np.unique(parentheses, return_inverse=True)
+    print(uniques)
     indices[indices == 0] = -1
     sums = np.cumsum(indices)
     return np.all(sums < 1) and sums[-1] == 0
     # END_YOUR_CODE
+
+print(matched([')', '(']))
