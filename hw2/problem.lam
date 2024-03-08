@@ -34,18 +34,19 @@ def nil  = \f.\x. x;
 # TASK: Implement the following functions.
 
 # BEGIN_YOUR_CODE
-def is_zero  = \n. n (\z. ff) tt;
-def len      = \l. l (\el. inc) _0;
-def id       = \x. x;
-def num_zero = \l. l (\el. (is_zero el) inc id) _0;
-def add      = \m.\n. m inc n;
-def mul      = \m.\n. m (add n) _0;
-def not      = \b. b ff tt;
-def fac_help = \help. pair (mul (fst help) (snd help)) (inc (snd help));
-def fac      = \n. fst (n fac_help (pair _1 _1));
+def is_zero   = \n. n (\z. ff) tt;
+def len       = \l. l (\el. inc) _0;
+def id        = \x. x;
+def num_zero  = \l. l (\el. (is_zero el) inc id) _0;
+def add       = \m.\n. m inc n;
+def mul       = \m.\n. m (add n) _0;
+def not       = \b. b ff tt;
+def fac_help  = \help. pair (mul (fst help) (snd help)) (inc (snd help));
+def fac       = \n. fst (n fac_help (pair _1 _1));
 def fib_help  = \p. pair (add (fst p) (snd p)) (fst p);
 def fib       = \n. fst (n fib_help (pair _1 _1));
-#def dec      = \n. n;
+def dec_help  = \p. pair (ff) ((fst p) id inc (snd p));
+def dec       = \n. snd (n dec_help (pair tt _0));
 def half_help = \p. pair (not (fst p)) ((fst p) inc id (snd p));
 def half      = \n. snd (n half_help (pair ff _0));
 # END_YOUR_CODE
@@ -55,66 +56,67 @@ def half      = \n. snd (n half_help (pair ff _0));
 #########
 # NOTE: Expected outputs are given as comments on each line.
 
-#section_is_zero; # This symbol will just be printed, so we can keep track of the output.
-#(is_zero _0) x y;  # x
-#(is_zero _1) x y;  # y
-#(is_zero _2) x y;  # y
-#(is_zero _3) x y;  # y
+section_is_zero; # This symbol will just be printed, so we can keep track of the output.
+(is_zero _0) x y;  # x
+(is_zero _1) x y;  # y
+(is_zero _2) x y;  # y
+(is_zero _3) x y;  # y
 
-#section_not;
-#not ff x y;  # x
-#not tt x y;  # y
+section_not;
+not ff x y;  # x
+not tt x y;  # y
 
-#section_len;
-#(len nil) f x;                                # x
-#(len (cons tt nil)) f x;                      # (f x)
-#(len (cons tt (cons ff nil))) f x;            # (f (f x))
-#(len (cons tt (cons ff (cons tt nil)))) f x;  # (f (f (f x)))
+section_len;
+(len nil) f x;                                # x
+(len (cons tt nil)) f x;                      # (f x)
+(len (cons tt (cons ff nil))) f x;            # (f (f x))
+(len (cons tt (cons ff (cons tt nil)))) f x;  # (f (f (f x)))
 
-#section_num_zero;
-#(num_zero nil) f x;                      # x
-#(num_zero (cons _1 nil)) f x;            # x
-#(num_zero (cons _0 nil)) f x;            # (f x)
-#(num_zero (cons _0 (cons _1 nil))) f x;  # (f x)
-#(num_zero (cons _0 (cons _0 nil))) f x;  # (f (f x))
+section_num_zero;
+(num_zero nil) f x;                      # x
+(num_zero (cons _1 nil)) f x;            # x
+(num_zero (cons _0 nil)) f x;            # (f x)
+(num_zero (cons _0 (cons _1 nil))) f x;  # (f x)
+(num_zero (cons _0 (cons _0 nil))) f x;  # (f (f x))
 
-#section_add;
-#(add) _0 _1 f x;
-#(add) _0 _2 f x;
-#(add) _2 _3 f x;
+section_add;
+(add) _0 _1 f x;
+(add) _0 _2 f x;
+(add) _2 _3 f x;
 
-#section_mul;
-#(mul) _0 _2 f x;
-#(mul) _1 _1 f x;
-#(mul) _2 _3 f x;
-#(mul) _3 _3 f x;
+section_mul;
+(mul) _0 _2 f x;
+(mul) _1 _1 f x;
+(mul) _2 _3 f x;
+(mul) _3 _3 f x;
 
-#section_fib;
-#(fib _0) f x;  # (f x)
-#(fib _1) f x;  # (f (f x))
-#(fib _2) f x;  # (f (f (f x)))
-#(fib _3) f x;  # (f (f (f (f (f x)))))
-#(fib _4) f x;  # (f (f (f (f (f (f (f (f x))))))))
+section_fib;
+(fib _0) f x;  # (f x)
+(fib _1) f x;  # (f (f x))
+(fib _2) f x;  # (f (f (f x)))
+(fib _3) f x;  # (f (f (f (f (f x)))))
+(fib _4) f x;  # (f (f (f (f (f (f (f (f x))))))))
 (fib _9) f x;
 
-#section_fac;
-#(fac _0) f x; (f x)
-#(fac _1) f x; (f x)
-#(fac _2) f x; (f (f x))
-#(fac _3) f x; (f (f (f (f (f (f x))))))
-#(fac _4) f x; (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x)))))))))))))))
+section_fac;
+(fac _0) f x;  # (f x)
+(fac _1) f x;  # (f x)
+(fac _2) f x;  # (f (f x))
+(fac _3) f x;  # (f (f (f (f (f (f x))))))
+(fac _4) f x;  # (f (f (f (f (f (f (f (f (f (f (f (f (f (f (f x)))))))))))))))
 
-#section_dec;
-#(dec _0) f x;  # x
-#(dec _1) f x;  # x
-#(dec _2) f x;  # (f x)
-#(dec _3) f x;  # (f (f x))
-#(dec _4) f x;  # (f (f (f x)))
+section_dec;
+(dec _0) f x;  # x
+(dec _1) f x;  # x
+(dec _2) f x;  # (f x)
+(dec _3) f x;  # (f (f x))
+(dec _4) f x;  # (f (f (f x)))
+(dec _9) f x;  # (f (f (f (f (f (f (f (f x))))))))
 
-#section_half;
-#(half _0) f x;  # x
-#(half _1) f x;  # x
-#(half _2) f x;  # (f x)
-#(half _3) f x;  # (f x)
-#(half _4) f x;  # (f (f x))
-#(half _9) f x;  # (f (f x))
+section_half;
+(half _0) f x;  # x
+(half _1) f x;  # x
+(half _2) f x;  # (f x)
+(half _3) f x;  # (f x)
+(half _4) f x;  # (f (f x))
+(half _9) f x;  # (f (f (f (f x))))
