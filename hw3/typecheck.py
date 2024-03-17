@@ -4,7 +4,7 @@ from typing import Set, Tuple, List, Dict
 
 def typecheck(prog: Prog) -> List[Type]:
     counter = [-1]
-    S = set() 
+    S = set()
     A: Dict[str, Type] = dict()
 
     def gen_constr(A: Dict[str, Type], e: Expr):
@@ -14,19 +14,15 @@ def typecheck(prog: Prog) -> List[Type]:
             case Var() if e.s in A:
                 return A[e.s]
             case Var():
-                raise TypecheckingError(f'Variable needs definition: {e.s}')
+                raise TypecheckingError(f"Variable needs definition: {e.s}")
             case Lam():
                 counter[0] += 1
-                alpha = TpVar(f'a{counter[0]}')
+                alpha = TpVar(f"a{counter[0]}")
                 return Func(alpha, gen_constr({**A, e.s: alpha}, e.e))
             case App():
                 counter[0] += 1
-                beta = TpVar(f'a{counter[0]}')
-                dummy = (gen_constr(A, e.e1), Func(gen_constr(A, e.e2), beta))
-                print('-- new constraint --')
-                print(e)
-                print(dummy)
-                S.add(dummy)
+                beta = TpVar(f"a{counter[0]}")
+                S.add((gen_constr(A, e.e1), Func(gen_constr(A, e.e2), beta)))
                 return beta
             case IntConst():
                 return IntTp()
@@ -57,7 +53,9 @@ def typecheck(prog: Prog) -> List[Type]:
 
         for left, right in S:
             if isinstance(left, Func) and isinstance(right, IntTp):
-                raise TypecheckingError("forbidden equality between int and function type")
+                raise TypecheckingError(
+                    "forbidden equality between int and function type"
+                )
 
         def canonicalizer(S: Set[Tuple[Type, Type]], tau: Type):
 
@@ -70,15 +68,17 @@ def typecheck(prog: Prog) -> List[Type]:
                         alpha_set.add(right)
                         if not isinstance(right, TpVar):
                             return True, right
-                
+
                 if len(alpha_set) > 1:
                     return True, min(alpha_set, key=lambda t: t.s)
-                
+
                 return False, -1
 
             try:
                 if tau in X:
-                    raise TypecheckingError('Hit a canonicalization loop - infinite types')
+                    raise TypecheckingError(
+                        "Hit a canonicalization loop - infinite types"
+                    )
                 X.add(tau)
 
                 match tau:
@@ -94,7 +94,7 @@ def typecheck(prog: Prog) -> List[Type]:
                         else:
                             return tau
 
-            except (TypecheckingError) as e:
+            except TypecheckingError as e:
                 X.add(tau)
                 raise e
 
@@ -104,11 +104,8 @@ def typecheck(prog: Prog) -> List[Type]:
         for a_type in A:
             A[a_type] = canonicalizer(S, A[a_type])
 
-
     for defn in prog.defns:
         A[defn.s] = gen_constr(A, defn.e)
-    print(S)
-    print(A)
     saturate_constr(S)
     typechecking(A, S)
 

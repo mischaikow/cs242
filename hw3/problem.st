@@ -4,13 +4,12 @@ def _0 = \f.\z. z;
 def _1 = inc _0;
 def _2 = inc _1;
 
-def sum = \n.\m. n inc m; # Should return a church encoding of the sum of n and m
-#def value = \n. (+ 1) 0; # Should take a church encoded number and produce a regular int.
+#def sum = \n.\m. n inc m; # Should return a church encoding of the sum of n and m
+def value = \n. n (+ 1) 0; # Should take a church encoded number and produce a regular int.
 #def is_div = <fill in>; # Should take two ints x y and produce 1 if x is divisible by y, 0 otherwise
 
-#def v1 = value _1;
-#def v2 = value _2;
-def v21 = sum _2 _1;
+def v1 = value _1;
+def v2 = value _2;
 #def v3 = value (sum _2 _1);
 #def v4 = value (sum _2 _2);
 #def v5 = value (sum (sum _2 _1) _2);
